@@ -8,7 +8,7 @@
 }
 
 .content{
-    transform: translateY(-70vh);
+    transform: translateY(-75vh);
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -4,7 +4,7 @@ const Working = () => {
   return (
     <>
         <div className='topdiv'>
-            <p>SNEAK A PEEK</p>
+            <p className='heading'>SNEAK A PEEK</p>
             <h1 style={{borderBottom:"3px solid black" }}>HOW IT WORKS</h1>
 <br />
             <p>The blogging struggle is real. Time is short. Writing is hard. And today's blog post keeps getting pushed into tomorrow. And then the next day.. We flip the script and get tommorow's blog post done today .    </p>

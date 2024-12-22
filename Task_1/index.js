@@ -65,7 +65,7 @@ list[0].addEventListener('click', function (e) {
 
 input[0].addEventListener('keypress', function (e) {
     if (e.key === "Enter") {
-        // document.getElementsByClassName("btn").click();
+        // document.getElementsByClassName("btn1").click();
         if (input[0].value === '') {
             alert('Write Something...');
         }
