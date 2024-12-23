@@ -4,12 +4,7 @@ const bcrypt = require('bcrypt')
 const register = async (req, res) => {
     try {
         const { name, email, phone, password, image, age } = req.body;
-        console.log(req.body);
-
-        const missingField = checkRequiredFields({ name, email, phone, password, image, age });
-        if (missingField) {
-            return res.status(400).json({ message: [`${missingField} is required`] });
-        }
+        // console.log(req.body);
 
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -52,15 +47,6 @@ const register = async (req, res) => {
     }
 };
 
-const checkRequiredFields = ({ name, email, phone, password, image, age }) => {
-    if (!name) return 'Name';
-    if (!email) return 'Email';
-    if (!phone) return 'Phone';
-    if (!password) return 'Password';
-    // if (!image) return 'Image';
-    if (!age) return 'Age';
-    return null;  
-};
 
 
 const login = async (req, res) => {

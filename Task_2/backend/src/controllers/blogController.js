@@ -1,3 +1,4 @@
+const Blogs = require("../models/blogSchema");
 const sampleBlog = require("../models/sampleBlogSchema");
 
 const getSampleBlogs =async(req,res)=>{
@@ -13,4 +14,24 @@ const getSampleBlogs =async(req,res)=>{
     }
 }
 
-module.exports = {getSampleBlogs}
+const createBlog  = async(req, res)=>{
+    try {
+        const {name, title , story , description , image , authorImage , postedOn , tags} = req.body ; 
+
+        const newBlog = new Blogs({
+            name, title , story , description , image , authorImage , postedOn,tags
+        });
+
+        await newBlog.save();
+
+        return res.status(201).json({
+            message: 'Blog post created successfully',
+            blog: newBlog
+        });
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+module.exports = {getSampleBlogs,createBlog}
