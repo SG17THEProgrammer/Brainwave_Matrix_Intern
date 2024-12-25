@@ -10,10 +10,18 @@
 .btn1{
     padding: 2px 4px;
     background-color: #79D7BE;
+    font-size: 13px;
 }
 
 .otrDiv a{
     text-decoration: none;
     color: black;
+    font-size: 14px;
 }
 
+.img4{
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+}

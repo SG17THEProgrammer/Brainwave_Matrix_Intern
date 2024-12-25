@@ -1,52 +1,245 @@
-import React from 'react'
+import React, { useState } from 'react'
 import '../css/BlogForm.css'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import Navbar from '../components/Navbar.jsx'
+import { RiGeminiFill } from "react-icons/ri";
+import { RxCross2 } from "react-icons/rx";
+import { useAuth } from './Auth.jsx';
+import { ImagetoBase64 } from '../utility/ImagetoBase64.js';
+import Markdown from 'react-markdown'
+import { toast } from 'react-toastify';
+
 const BlogForm = () => {
+const {user } = useAuth()
 
-  const modules ={
-    toolbar:[
-        [{'header': [1, 2, 3, 4, 5, 6, false]}],
-        ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-        [{'list':'ordered'},{'list':'bullter'}, {'indent':'-1'}, {'indent': '+1'} ],
-        ['clean'],
-        ['link', 'image']
+  const modules = {
+    toolbar: [
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+      [{ 'list': 'ordered' }, { 'list': 'bullter' }, { 'indent': '-1' }, { 'indent': '+1' }],
+      ['clean'],
+      ['link', 'image']
     ]
-}
+  }
 
-const formats = [
-  'header',
-  'bold', 'italic', 'underline', 'strike', 'blockquote',
-  'list', 'bullet', 'indent',
-  'link', 'image'
-]
+  const formats = [
+    'header',
+    'bold', 'italic', 'underline', 'strike', 'blockquote',
+    'list', 'bullet', 'indent',
+    'link', 'image'
+  ]
+
+  const [newTag, setNewTag] = useState(''); 
+   const [tags, setTags] = useState([])
+
+  const [formData, setFormData] = useState({
+    name: '',
+    title: '',
+    story: '',
+    description: '',
+    authorImage: '',
+    tags:[],
+    image:'',
+});
+
+const [userData, setUserData] = useState(true)
+
+	if (userData && user && tags) {
+		setFormData({
+			name: user.name,
+      title: '',
+    story: '',
+    description: '',
+    authorImage: user?.image || "https://images.unsplash.com/photo-1567446537708-ac4aa75c9c28?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    tags:[],
+    image:'',
+			
+		});
+		setUserData(false);
+	}
+
+
+  const handleKeyPress = (e) => {
+    const inputValue = newTag.trim();
+
+    if (e.key === 'Enter' && inputValue !== '') {
+      e.preventDefault(); 
+      if (!tags.includes(inputValue)) {
+        setTags((prevTags) => {
+          const updatedTags = [...prevTags, inputValue];
+          setFormData({
+            ...formData,
+            tags: updatedTags, 
+          });
+          return updatedTags; 
+        });
+      }
+      setNewTag(''); 
+    }
+  };
+
+  const deleteTag = (tag) => {
+    const updatedTags = tags.filter((t) => t !== tag);
+    setTags(updatedTags);
+    setFormData({
+      ...formData,
+      tags: updatedTags,
+    });
+  };
+
+  const generateStory=async()=>{
+    let dataToSend 
+    if(formData.title=='' ){
+      toast.error("Enter title")
+      return;
+    }
+    else if (formData.tags.length==0){
+      toast.error("Enter atleast one tag")
+      return;
+    }
+    else{
+      dataToSend = {
+        title: formData?.title,
+        tags: formData?.tags,
+        purpose:'forStory'
+      };
+    }
+      
+    // console.log(dataToSend);
+      try {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_API}/getAnswer`,{
+          method:"POST" , 
+          headers: {
+					"Content-Type": "application/json",
+				},
+          body:JSON.stringify(dataToSend)
+        })
+
+        const answer = await response.json() 
+
+        // console.log(answer);
+        setFormData({
+          ...formData,
+          story:answer
+        })
+
+      } catch (error) {
+        console.log(error)
+      }
+  }
+
+  const generateDescription=async()=>{
+    const dataToSend = {
+      title: formData?.title,
+      tags: formData?.tags,
+      story: formData?.story,
+      purpose:'forDescription'
+
+    };
+      try {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_API}/getAnswer`,{
+          method:"POST" , 
+          headers: {
+					"Content-Type": "application/json",
+				},
+          body:JSON.stringify(dataToSend)
+        })
+
+        const answer = await response.json() 
+
+        setFormData({
+          ...formData,
+          description: answer
+        })
+        
+      } catch (error) {
+        console.log(error)
+      }
+  }
+
+  
+  const handleInput = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  }
+
+  const handleQuillChange = (value) => {
+    setFormData({
+      ...formData,
+      description: value, 
+    });
+  };
+
+  const handleTags = (e) => {
+    const inputValue = e.target.value.trim();
+    setNewTag(inputValue); 
+  };
+
+  const handleUploadProfileImage = async (e) => {
+    const image = await ImagetoBase64(e.target.files[0])
+
+    setFormData((prev) => {
+      return {
+        ...prev,
+        image: image
+      }
+    })
+
+  }
 
   return (
     <>
-    <Navbar></Navbar>
-    <div className='postdiv'>
+      <Navbar></Navbar>
+      <div className='postdiv'>
         <h1 className='h1'>Create A Post</h1>
 
+        <label htmlFor="file" className='label' style={{marginBottom:"10px" , textDecoration:"underline" , color:"skyblue" , cursor:"pointer" }}>Upload an Image</label>
+
+        <img src={formData?.image || "https://images.unsplash.com/photo-1567446537708-ac4aa75c9c28?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} alt="blog_image" className='img5'/>
+        <input type='file' id='file' className='inp1' name='file' accept='image/*' onChange={handleUploadProfileImage} />
+
+    <br />
+
         <label htmlFor="" className='label'>Title</label>
-        <input type="text" placeholder='Enter Title'/>
+        <input type="text" className='inpTxt' placeholder='Enter Title' onChange={handleInput} name='title' value={formData.title}/>
 
-        <label htmlFor="" className='label'>Story</label>
-        <input type="text" placeholder='Write your Story'/>
-        
-        <label htmlFor="" className='label'>Description</label>
-        <ReactQuill theme="snow" modules={modules} formats={formats} className='reactquill' placeholder='Write your blog'/>
+        <label htmlFor="" className='label'>Tags <span className='instruction'>(Press Enter to add a tag)</span></label>
+        <input type="text" className='inpTxt' onChange={handleTags}
+        value={newTag} name='tags' onKeyDown={handleKeyPress} placeholder='Enter Tags' />
+
+      <div className='tagdiv'>
+        {tags?.map((elem, idx) => {
+            return <>
+            <div className='tags' key={idx}>{elem} &nbsp; <RxCross2 style={{marginTop:"-1px" , cursor:"pointer"}} onClick={()=>deleteTag(elem)}/></div>
+            </>
+        })}
+            </div>
         <br /><br />
-        
-        <label htmlFor="" className='label'>Tags</label>
-        <input type="text" placeholder='Enter Tags'/>
 
+        <div className='aidiv'>
+          <label htmlFor="" className='label'>Story</label>
+          <button className='aibtn' onClick={generateStory}><RiGeminiFill /> Generate using AI</button>
+        </div>
+        <input type="text" className='inpTxt' placeholder='Write/Generate your Story' onChange={handleInput} name='story' value={formData.story}/>
 
-<br /><br />
+        <br />
+        <div className='aidiv'>
+          <label htmlFor="" className='label'>Description</label>
+          <button className='aibtn' onClick={generateDescription}><RiGeminiFill /> Generate using AI</button>
+        </div>
+        <ReactQuill theme="snow" modules={modules} formats={formats} className='reactquill' placeholder='Write/Generate your blog' name='description' onChange={handleQuillChange} value={formData?.description}/>
+        <br></br>
+
         <button className='btn2'>Create Post</button>
-      
 
-    </div>
+
+      </div>
     </>
   )
 }

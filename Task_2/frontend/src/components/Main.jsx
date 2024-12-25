@@ -1,5 +1,6 @@
 import React from 'react'
 import '../css/Main.css'
+import { NavLink } from 'react-router-dom'
 const Main = () => {
   return (
     <>
@@ -17,7 +18,9 @@ const Main = () => {
             <br />
             <p className='txt1'>Creating a blog has never been easier! You have the flexibility to craft your blog manually, putting your unique thoughts and creativity into every word. Or, if you're short on time or inspiration, you can generate a blog automatically by simply providing keywords or a prompt. Whether you prefer a hands-on approach or a smarter, AI-powered solution, we've got you covered.</p>
 <br />
+            <NavLink to='/createPost'>
             <button className='btn1'> Get Started </button>
+            </NavLink>
 
         </div>
     </div>

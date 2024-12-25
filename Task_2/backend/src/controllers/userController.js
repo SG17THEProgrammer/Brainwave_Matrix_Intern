@@ -91,7 +91,22 @@ const login = async (req, res) => {
     }
 }
 
+const getUser = async (req, res) => {
+    try {
+                // console.log(req.user)
 
+        const userData = req.user;
+        // console.log(userData);
+
+        return res.status(200).json({ userData })
+        // return res.status(200).json({message:"hi user"})
+
+
+    } catch (error) {
+        console.log(error)
+        res.status(404).send(error)
+    }
+}
 
 const getAllUsers = async (req, res) => {
     try {
@@ -105,4 +120,4 @@ const getAllUsers = async (req, res) => {
     }
 }
 
-module.exports = {register,getAllUsers,login}
+module.exports = {register,getAllUsers,login,getUser}

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+const validator = require('validator');
 
 const userSchema = new mongoose.Schema({
     name: {
@@ -12,12 +13,12 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: [true, "email id already exists"],
 
-        // validate(value) {
-        //     if (!validator.isEmail(value)) {
-        //         throw new Error('Invalid email')
+        validate(value) {
+            if (!validator.isEmail(value)) {
+                throw new Error('Invalid email')
 
-        //     }
-        // }
+            }
+        }
     },
     phone: {
         type: String,
@@ -26,10 +27,16 @@ const userSchema = new mongoose.Schema({
         unique: [true, "phone number already exists"],
     },
     age: {
-        type: String,
-        required: true,
-        minlength: [2, "age should be between 0-99"],
+    type: String,  
+    validate: {
+        validator: function (v) {
+            const age = parseInt(v, 10);
+            return age >= 10 && age <= 100; 
+        },
+        message: "Age should be between 0 and 100"
     },
+    required: [true, "Age is required"],
+  },
     password: {
         type: String,
         required: true

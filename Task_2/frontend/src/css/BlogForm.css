@@ -30,7 +30,7 @@
     margin-top: 5px;
 }
 
-input[type="text"] {
+.inpTxt{
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -41,7 +41,7 @@ input[type="text"] {
     margin-bottom: 15px;
 }
 
-input[type="text"]:focus {
+.inpTxt:focus {
     border-color: #007bff; 
     outline: none;
     background-color: #fff;
@@ -72,8 +72,8 @@ input[type="text"]:focus {
     background-color: #0056b3; 
 }
 
-input[type="text"]:disabled,
-.ReactQuill:disabled {
+.inpTxt:disabled,
+.reactquill:disabled {
     background-color: #e9ecef;
     cursor: not-allowed;
 }
@@ -90,11 +90,79 @@ input[type="text"]:disabled,
         font-size: 1.8em;
     }
 
-    input[type="text"] {
+    .inpTxt {
         font-size: 0.9rem;
     }
 
-    .eeactquill {
+    .reactquill {
         height: 200px; 
     }
+}
+
+
+.aidiv{
+    display: flex;
+    justify-content: space-between;
+    align-items: space-between;
+    width: 100%;
+}
+
+.aibtn {
+    font-size: 12px;
+    padding: 0px 10px 0 5px;
+    margin-bottom: 5px;
+    border: 2px solid #007BFF;
+    border-radius: 4px;
+    background-color: #007BFF;
+    color: white;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.aibtn svg {
+    margin-right: 8px;
+}
+
+.aibtn:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.aibtn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5);
+}
+.tags{
+    background-color: purple;
+    color: white;
+    margin-right: 10px;
+    padding: 0 10px;
+    border-radius: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.tagdiv{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.img5{
+    height: 120px;
+    width: 20vw;
+    object-fit: cover;
+    border-radius: 5px;
+}
+.instruction{
+    font-size: 11px;
+    color:#007BFF;
 }
