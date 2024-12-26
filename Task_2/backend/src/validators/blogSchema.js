@@ -1,12 +1,6 @@
 const { z } = require('zod');
 
-const blogSchema = z.object({
-    name: z
-        .string()
-        .min(3, { message: "Name is required" })
-        .max(50, { message: "Name must be less than 50 characters" })
-        .trim(),
-
+const blogSchema = z.object({    
     title: z
         .string()
         .min(2, { message: "Title is required" })
@@ -16,13 +10,13 @@ const blogSchema = z.object({
     story: z
         .string()
         .min(2, { message: "Story is required" })
-        .max(500, { message: "Story must be less than 500 characters" })
+        .max(600, { message: "Story must be less than 600 characters" })
         .trim(),
 
     description: z
         .string()
         .min(100, { message: "Description is required" })
-        .max(2000, { message: "Description must be less than 2000 characters" })
+        .max(4000, { message: "Description must be less than 4000 characters" })
         .trim(),
 
     image: z

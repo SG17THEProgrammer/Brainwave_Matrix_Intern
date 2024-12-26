@@ -7,8 +7,13 @@ import { RiGeminiFill } from "react-icons/ri";
 import { RxCross2 } from "react-icons/rx";
 import { useAuth } from './Auth.jsx';
 import { ImagetoBase64 } from '../utility/ImagetoBase64.js';
-import Markdown from 'react-markdown'
+// import Markdown from 'react-markdown'
 import { toast } from 'react-toastify';
+import Loader from '../components/Loader.jsx'
+// import marked from 'marked';
+import { Remarkable } from 'remarkable';
+
+
 
 const BlogForm = () => {
 const {user } = useAuth()
@@ -30,11 +35,13 @@ const {user } = useAuth()
     'link', 'image'
   ]
 
+  const [loader ,setLoader] = useState(false)
   const [newTag, setNewTag] = useState(''); 
    const [tags, setTags] = useState([])
 
   const [formData, setFormData] = useState({
     name: '',
+    email:'',
     title: '',
     story: '',
     description: '',
@@ -44,10 +51,10 @@ const {user } = useAuth()
 });
 
 const [userData, setUserData] = useState(true)
-
-	if (userData && user && tags) {
+	if (userData && user) {
 		setFormData({
-			name: user.name,
+			name: user?.name,
+      email:user?.email,
       title: '',
     story: '',
     description: '',
@@ -89,13 +96,16 @@ const [userData, setUserData] = useState(true)
   };
 
   const generateStory=async()=>{
+    setLoader(true)
     let dataToSend 
     if(formData.title=='' ){
       toast.error("Enter title")
+      setLoader(false)
       return;
     }
     else if (formData.tags.length==0){
       toast.error("Enter atleast one tag")
+      setLoader(false)
       return;
     }
     else{
@@ -127,9 +137,29 @@ const [userData, setUserData] = useState(true)
       } catch (error) {
         console.log(error)
       }
+      finally{
+        setLoader(false)
+      }
   }
 
   const generateDescription=async()=>{
+    setLoader(true)
+    if(formData.title=='' ){
+      toast.error("Enter title")
+      setLoader(false)
+      return;
+    }
+    else if (formData.tags.length==0){
+      toast.error("Enter atleast one tag")     
+     setLoader(false)
+      return;
+    }
+    else if (formData.story==''){
+      toast.error("Enter story first")
+      setLoader(false)
+      return;
+    }
+
     const dataToSend = {
       title: formData?.title,
       tags: formData?.tags,
@@ -147,14 +177,21 @@ const [userData, setUserData] = useState(true)
         })
 
         const answer = await response.json() 
+        // const htmlContent = marked(answer);
+
+        const md = new Remarkable();
+const htmlContent = md.render(answer);
 
         setFormData({
           ...formData,
-          description: answer
+          description:htmlContent
         })
         
       } catch (error) {
         console.log(error)
+      }
+      finally{
+        setLoader(false)
       }
   }
 
@@ -193,12 +230,54 @@ const [userData, setUserData] = useState(true)
 
   }
 
+
+  const handleSubmit =async(req,res)=>{
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_API}/createPost`,{
+        method:"POST" , 
+          headers: {
+					"Content-Type": "application/json",
+				},
+          body:JSON.stringify(formData)
+      })
+
+			const resData = await response.json();
+
+      // console.log(resData )
+      
+      if(response.ok){
+
+        setFormData({
+          ...formData,
+          title: '',
+          story: '',
+          description: '',
+          authorImage: '',
+          tags:[],
+          image:'',
+          email:'',
+        })
+
+        toast.success(resData.message);
+
+      }
+      else{
+        toast.error(resData.message[0])
+      }
+
+
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  console.log(formData)
   return (
     <>
       <Navbar></Navbar>
       <div className='postdiv'>
         <h1 className='h1'>Create A Post</h1>
-
+{/* <Markdown>**Cricket**</Markdown> */}
         <label htmlFor="file" className='label' style={{marginBottom:"10px" , textDecoration:"underline" , color:"skyblue" , cursor:"pointer" }}>Upload an Image</label>
 
         <img src={formData?.image || "https://images.unsplash.com/photo-1567446537708-ac4aa75c9c28?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"} alt="blog_image" className='img5'/>
@@ -236,10 +315,11 @@ const [userData, setUserData] = useState(true)
         <ReactQuill theme="snow" modules={modules} formats={formats} className='reactquill' placeholder='Write/Generate your blog' name='description' onChange={handleQuillChange} value={formData?.description}/>
         <br></br>
 
-        <button className='btn2'>Create Post</button>
+        <button className='btn2' onClick={handleSubmit}>Create Post</button>
 
 
       </div>
+      {loader?<Loader></Loader>:""}
     </>
   )
 }
