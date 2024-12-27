@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../css/BlogForm.css'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -16,7 +16,7 @@ import { Remarkable } from 'remarkable';
 
 
 const BlogForm = () => {
-const {user } = useAuth()
+const {user} = useAuth()
 
   const modules = {
     toolbar: [
@@ -39,6 +39,9 @@ const {user } = useAuth()
   const [newTag, setNewTag] = useState(''); 
    const [tags, setTags] = useState([])
 
+  //  console.log(user)
+   
+
   const [formData, setFormData] = useState({
     name: '',
     email:'',
@@ -50,21 +53,28 @@ const {user } = useAuth()
     image:'',
 });
 
-const [userData, setUserData] = useState(true)
-	if (userData && user) {
+useEffect(()=>{
+  if (user) {
 		setFormData({
-			name: user?.name,
-      email:user?.email,
+      name: user.name,
+      email:user.email,
       title: '',
     story: '',
     description: '',
-    authorImage: user?.image || "https://images.unsplash.com/photo-1567446537708-ac4aa75c9c28?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    authorImage: user.image || "https://images.unsplash.com/photo-1567446537708-ac4aa75c9c28?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     tags:[],
     image:'',
-			
 		});
-		setUserData(false);
 	}
+},[user])
+
+
+
+// const [userData, setUserData] = useState(true)
+// // console.log(userData && user)
+// // console.log(userData)
+// // console.log(JSON.stringify(user))
+	
 
 
   const handleKeyPress = (e) => {
@@ -128,10 +138,13 @@ const [userData, setUserData] = useState(true)
 
         const answer = await response.json() 
 
+        const md = new Remarkable();
+        const htmlContent = md.render(answer);
+
         // console.log(answer);
         setFormData({
           ...formData,
-          story:answer
+          story:htmlContent
         })
 
       } catch (error) {
@@ -230,33 +243,40 @@ const htmlContent = md.render(answer);
 
   }
 
+  // console.log(formData)
 
   const handleSubmit =async(req,res)=>{
     try {
+      // console.log(formData)
       const response = await fetch(`${import.meta.env.VITE_BACKEND_API}/createPost`,{
         method:"POST" , 
           headers: {
-					"Content-Type": "application/json",
+					'Content-Type': 'application/json',
 				},
-          body:JSON.stringify(formData)
+        body:JSON.stringify(formData)
       })
 
 			const resData = await response.json();
 
-      // console.log(resData )
+      console.log(resData )
       
       if(response.ok){
 
         setFormData({
-          ...formData,
           title: '',
-          story: '',
           description: '',
-          authorImage: '',
-          tags:[],
           image:'',
-          email:'',
         })
+
+        setFormData({
+          description: '',
+        })
+        
+        setFormData({
+          story: '',
+        })
+
+        setTags([])
 
         toast.success(resData.message);
 
@@ -271,7 +291,6 @@ const htmlContent = md.render(answer);
     }
   }
 
-  console.log(formData)
   return (
     <>
       <Navbar></Navbar>

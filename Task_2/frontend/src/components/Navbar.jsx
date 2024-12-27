@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom'
 import { useAuth } from './Auth'
 const Navbar = () => {
     const { isLoggedIn, user } = useAuth();
+    
     return (
         <>
             <div className='otrDiv'>
@@ -13,31 +14,31 @@ const Navbar = () => {
 
                 <NavLink>
 
-                    <a>Pricing</a>
+                    <span>Pricing</span>
                 </NavLink>
 
                 <NavLink>
 
-                    <a>FAQ</a>
+                    <span>FAQ</span>
                 </NavLink>
 
 
                 <NavLink>
 
-                    <a>Contact Us</a>
+                    <span>Contact Us</span>
                 </NavLink>
 
-                <NavLink><a>All Posts</a>
+                <NavLink><span>All Posts</span>
                 </NavLink>
 
-                <NavLink  to='/yourPosts'>
+                <NavLink to='/yourPosts'>
 
-                    <a>Your posts</a>
+                    <span>Your posts</span>
                 </NavLink>
 
-                <NavLink  to='/createPost'>
+                <NavLink to='/createPost'>
 
-                    <a>Create a Post</a>
+                    <span>Create a Post</span>
                 </NavLink>
 
                 {!isLoggedIn ? <NavLink to="/login">

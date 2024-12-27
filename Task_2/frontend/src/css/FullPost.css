@@ -1,0 +1,169 @@
+
+
+  .leftcolumn {
+    float: left;
+    width: 75%;
+  }
+
+  .rightcolumn {
+    float: left;
+    width: 25%;
+    padding-left: 20px;
+  }
+  
+  .fakeimg {
+    background-color: #aaa;
+    width: 100%;
+    padding: 20px;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+      .card {
+    background-color: white;
+    padding: 20px;
+    margin-top: 20px;
+  }
+  
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  
+
+  /* Responsive layout - when the screen is less than 800px wide, make the two columns stack on top of each other instead of next to each other */
+  @media screen and (max-width: 800px) {
+    .leftcolumn, .rightcolumn {
+      width: 100%;
+      padding: 0;
+    }
+  }
+
+
+/* Main row layout */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  
+  /* Left column (content) */
+  .leftcolumn {
+    flex: 3;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .leftcolumn .card {
+    margin-bottom: 20px;
+  }
+  
+  .leftcolumn h2 {
+    font-size: 2em;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  .leftcolumn h5 {
+    font-size: 1.1em;
+    color: #888;
+    margin-bottom: 20px;
+  }
+  
+  .leftcolumn .fakeimg {
+    background-color: #e1e1e1;
+    width: 100%;
+    height: 200px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+  }
+  
+  .leftcolumn p {
+    font-size: 1em;
+    line-height: 1.6;
+    color: #555;
+  }
+  
+  /* Right column (sidebar) */
+  .rightcolumn {
+    flex: 1;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .rightcolumn .card {
+    margin-bottom: 20px;
+  }
+  
+  .rightcolumn h2,
+  .rightcolumn h3 {
+    font-size: 1.5em;
+    color: #333;
+  }
+  
+  .rightcolumn p {
+    font-size: 1em;
+    color: #555;
+  }
+  
+  .rightcolumn .fakeimg {
+    background-color: #e1e1e1;
+    width: 100%;
+    height: 150px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+  }
+  
+  .icondiv{
+    display: flex;
+    width: 30%;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-left: 3px;
+  }
+  /* Responsive layout */
+  @media screen and (max-width: 800px) {
+    .leftcolumn, .rightcolumn {
+      flex: 100%;
+      padding: 10px;
+    }
+  
+    .leftcolumn .card, .rightcolumn .card {
+      margin-bottom: 15px;
+    }
+  
+    .leftcolumn h2 {
+      font-size: 1.8em;
+    }
+  
+    .rightcolumn h2,
+    .rightcolumn h3 {
+      font-size: 1.3em;
+    }
+  }
+  
+  /* Hover effects for cards */
+  .card1:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .card1 h2, .card1 h3 {
+    transition: color 0.3s ease;
+  }
+  
+  .card1:hover h2, .card1:hover h3 {
+    color: #007BFF;
+  }
+  
+  .fakeimg:hover {
+    background-color: #d4d4d4;
+    transition: background-color 0.3s ease;
+  }
+  

@@ -26,28 +26,28 @@ export const AuthProvider = ({ children }) => {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_API}/user`, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${token}`,
+          'Content-Type': "application/json",
+          'Authorization': `Bearer ${token}`,
         },
       });
 
       if (response.ok) {
         const data = await response.json();
-        // //console.log(data.userData);
+        // console.log(data);
 
-        // our main goal is to get the user data 👇
         setUser(data.userData);
       } else {
-        //console.error("Error fetching user data");
+        console.error("Error fetching user data");
       }
     } catch (error) {
-      //console.log(error);
+      console.log(error);
     }
   }
   };
   
   useEffect(()=>{
     userAuthentication();
-  },[])
+  },[isLoggedIn , token])
 
 return (
     <>

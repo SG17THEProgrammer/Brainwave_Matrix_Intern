@@ -41,13 +41,13 @@ const SuccessStories = () => {
         <div className='gridbox'>
         {successStories?.map((elem,idx)=>{
             const {story,image,name,designation} = elem ; 
-            return <><main className="l-card">
+            return <><main className="l-card" key={idx}>
 	<section className="l-card__text">
 		<p>
 			{story}
 		</p>
 	</section>
-	<section className="l-card__user">
+	<section className="l-card__user" key={idx}>
 		<div className="l-card__userImage">
 			<img src={image} alt="image" className='img3'/>
 		</div>

@@ -1,13 +1,32 @@
 const mongoose = require('mongoose');
 
+const commentSchema = new mongoose.Schema({
+    author: {
+      type: String,
+      required: true,
+    },
+    userImage: {
+      type: String,
+      required: true,
+    },
+    text: {
+      type: String,
+      required: true,
+    },
+  },{ timestamps: true });
+  
 const blogSchema = new mongoose.Schema({
     name: {
         type: String,
-        // required: true , 
+        required: true , 
     },
     email: {
         type: String,
-        // required: true
+        required: true
+    },
+    rating: {
+        type: [Number],
+        default: [] 
     },
     title: {
         type: String,
@@ -25,6 +44,10 @@ const blogSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    comments: {
+    type: [commentSchema], 
+    default: [],
+  },
     authorImage: {
         type: String,
         required: true
@@ -32,7 +55,6 @@ const blogSchema = new mongoose.Schema({
     tags: {
         type: [String],
         required: true,
-        validate: [array => array.length > 0, 'At least one tag is required']
     },
     postedOn: {
         type: Date,

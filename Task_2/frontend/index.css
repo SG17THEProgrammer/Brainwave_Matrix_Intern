@@ -18,3 +18,11 @@ body{
     align-items: center;
     background-color: rgba(0, 0, 0, 0.5); 
 }
+
+.starDiv{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    place-items: center;
+    width: 100%;
+}

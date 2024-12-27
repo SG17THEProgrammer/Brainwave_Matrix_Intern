@@ -1,0 +1,151 @@
+.commentDiv {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin: 50px 100px;
+    padding: 20px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #f9f9f9;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.commentDiv h4 {
+    font-family: 'Arial', sans-serif;
+    font-size: 1.25rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.txtArea {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    resize: vertical;
+    transition: border-color 0.3s ease;
+    outline: none;
+}
+
+.txtArea:focus {
+    border-color: #0056b3;
+}
+
+.submitBtn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 10px;
+}
+
+.submitBtn:hover {
+    background-color: #0056b3;
+}
+
+.submitBtn:active {
+    background-color: #004085;
+}
+
+@media (max-width: 768px) {
+    .commentDiv {
+        width: 90%;
+        padding: 15px;
+    }
+
+    .txtArea {
+        height: 120px;
+    }
+}
+
+.commDiv {
+    display: flex;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    margin: 0 100px;
+    margin-bottom: 20px;
+}
+
+.leftDiv {
+    width: 10%;
+    padding-right: 15px;
+}
+
+.leftDiv img {
+    width: 100%;
+    height: 25vh;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 2px solid #ccc;
+}
+
+.rightDiv {
+    width: 90%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    padding-left: 15px;
+}
+
+.rightDiv h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.rightDiv p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
+.attrib {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-size: 0.875rem;
+    color: #777;
+    margin-top: 10px;
+}
+
+.attrib div {
+    display: flex;
+    align-items: center;
+}
+
+.attrib span {
+    margin-right: 10px;
+}
+
+.attrib p {
+    margin: 0;
+    padding: 0;
+    font-weight: 500;
+}
+
+.attrib a {
+    text-decoration: none;
+    color: #007bff;
+    font-size: 0.875rem;
+    margin-left: 15px;
+    transition: color 0.3s ease;
+}
+
+.attrib a:hover {
+    color: #0056b3;
+}

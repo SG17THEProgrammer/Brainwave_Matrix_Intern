@@ -1,6 +1,10 @@
 const { z } = require('zod');
 
 const blogSchema = z.object({    
+    name:z.string().trim() , 
+    email:z.string().trim() , 
+    rating:z.array(), 
+    comments:z.array(), 
     title: z
         .string()
         .min(2, { message: "Title is required" })
