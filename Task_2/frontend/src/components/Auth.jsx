@@ -1,4 +1,5 @@
 import { createContext, useContext ,useState,useEffect} from "react";
+import { toast } from "react-toastify";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -13,6 +14,11 @@ export const AuthProvider = ({ children }) => {
         return localStorage.setItem("token", serverToken);
       };
 
+      const LogoutUser = () => {
+        setToken("");
+        localStorage.removeItem("token");
+        toast.success("You are logged out")
+      };
 
 
 
@@ -51,7 +57,7 @@ export const AuthProvider = ({ children }) => {
 
 return (
     <>
-    <AuthContext.Provider value={{ isLoggedIn, storeTokensInLS , user}}>
+    <AuthContext.Provider value={{ isLoggedIn, storeTokensInLS , user , LogoutUser}}>
       {children}
     </AuthContext.Provider>
     </>

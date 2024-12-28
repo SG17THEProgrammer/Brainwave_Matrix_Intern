@@ -21,6 +21,10 @@ const LoginRegister = () => {
     password: "",
     image: "",
   })
+  const [loginUser, setloginUser] = useState({
+    email: "",
+    password: "",
+  })
 
 
   const handleUploadProfileImage = async (e) => {
@@ -37,7 +41,7 @@ const LoginRegister = () => {
 
   }
 
-  const handleInput = (e) => {
+  const handleRegInput = (e) => {
     let name = e.target.name;
     let value = e.target.value;
 
@@ -47,9 +51,19 @@ const LoginRegister = () => {
     });
   }
 
+  const handleLoginInput = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+
+    setloginUser({
+      ...loginUser,
+      [name]: value,
+    });
+  }
+
   // console.log(registerUser)
 
-  const handleSubmit = async (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
     try {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_API}/register`, {
@@ -80,6 +94,40 @@ const LoginRegister = () => {
     }
   };
 
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_API}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(loginUser),
+      });
+
+      const resData = await response.json();
+
+      if (response.ok) {
+        // Storing tokens in LS through context API 
+        storeTokensInLS(resData.token);
+
+        toast.success(resData.message[0]);
+        setloginUser({ email: "", password: "" });
+
+
+          navigate('/');
+          
+      } else {
+        toast.error(resData.message[0]);
+      }
+    } catch (error) {
+      toast.error('Error fetching API');
+    }
+  };
+
+
   return (
     <>
     <Navbar></Navbar>
@@ -87,14 +135,14 @@ const LoginRegister = () => {
         <div className={showSignUp ? 'center' : 'centerReg'}>
           {showSignUp ? <>
             <h1>Login</h1>
-            <form method="post">
+            <form method="post" onSubmit={handleLogin}>
               <div className="txt_field">
-                <input type="text" required />
+                <input type="text" required onChange={handleLoginInput} name='email' value={loginUser.email}/>
                 <span></span>
                 <label>Email</label>
               </div>
               <div className="txt_field lab">
-                <input type={showPassword ? "text" : "password"} required />
+                <input type={showPassword ? "text" : "password"} required onChange={handleLoginInput} value={loginUser.password} name='password'/>
                 <span></span>
                 <label >Password</label>
                 {showPassword ? <IoEyeSharp onClick={() => setshowPassword(!showPassword)} style={{ cursor: "pointer" }}></IoEyeSharp> : <FaEyeSlash onClick={() => setshowPassword(!showPassword)} style={{ cursor: "pointer" }}></FaEyeSlash>}
@@ -116,29 +164,29 @@ const LoginRegister = () => {
               </div>
               <hr />
 
-              <form method="post" onSubmit={handleSubmit}>
+              <form method="post" onSubmit={handleRegister}>
                 <div className="txt_field">
-                  <input type="text" required onChange={handleInput} name='name' value={registerUser.name} />
+                  <input type="text" required onChange={handleRegInput} name='name' value={registerUser.name} />
                   <span></span>
                   <label>Name</label>
                 </div>
                 <div className="txt_field">
-                  <input type="text" required onChange={handleInput} name='email' value={registerUser.email} />
+                  <input type="text" required onChange={handleRegInput} name='email' value={registerUser.email} />
                   <span></span>
                   <label>Email</label>
                 </div>
                 <div className="txt_field">
-                  <input type="number" required onChange={handleInput} name='phone' value={registerUser.phone} />
+                  <input type="number" required onChange={handleRegInput} name='phone' value={registerUser.phone} />
                   <span></span>
                   <label>Phone</label>
                 </div>
                 <div className="txt_field">
-                  <input type="number" required onChange={handleInput} name='age' value={registerUser.age} />
+                  <input type="number" required onChange={handleRegInput} name='age' value={registerUser.age} />
                   <span></span>
                   <label>Age</label>
                 </div>
                 <div className="txt_field lab">
-                  <input type={showPassword ? "text" : "password"} required onChange={handleInput} name='password' value={registerUser.password} />
+                  <input type={showPassword ? "text" : "password"} required onChange={handleRegInput} name='password' value={registerUser.password} />
                   <span></span>
                   <label >Password</label>
                   {showPassword ? <IoEyeSharp onClick={() => setshowPassword(!showPassword)} style={{ cursor: "pointer" }}></IoEyeSharp> : <FaEyeSlash onClick={() => setshowPassword(!showPassword)} style={{ cursor: "pointer" }}></FaEyeSlash>}

@@ -45,12 +45,12 @@ const Card = ({blog}) => {
   <div className="blog-footer">
     <ul>
       <li className="published-date" style={{color:"black"}}>{daysAgo}</li>
-      <li className="comments"><a href="#">
+      {/* <li className="comments"><a href="#">
       <FaRegCommentDots style={{color:"brown"}}/>
-      <span className="numero">{comments?.length}</span></a></li>
+      <span className="numero">{comments?.length}</span></a></li> */}
 
-      <li className="shares"><a href="#">
-      <FaRegStar style={{color:"brown"}}/><span className="numero">{rating}</span></a></li>
+      {/* <li className="shares"><a href="#">
+      <FaRegStar style={{color:"brown"}}/><span className="numero">{rating}</span></a></li> */}
     </ul>
   </div>
 

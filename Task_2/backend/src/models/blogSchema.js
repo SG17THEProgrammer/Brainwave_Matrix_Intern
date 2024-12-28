@@ -25,8 +25,9 @@ const blogSchema = new mongoose.Schema({
         required: true
     },
     rating: {
-        type: [Number],
-        default: [] 
+            type: Map,
+            of: Number, //key is userId and the value is the rating
+            default: {},
     },
     title: {
         type: String,

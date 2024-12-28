@@ -1,9 +1,17 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import '../css/Comment.css'
 import { useAuth } from './Auth'
 import { toast } from 'react-toastify';
+import { MdDelete } from "react-icons/md";
+import { CiEdit } from "react-icons/ci";
+import { format } from 'date-fns';
 const Comment = ({ blogId, productDisplay }) => {
     const { user } = useAuth();
+    const commentRef = useRef(null);
+
+    const [editCommentId, setEditCommentId] = useState();
+    const [newCommentText, setNewCommentText] = useState("");
+
     const [allComments, setAllComments] = useState(productDisplay?.comments)
     const [comments, setComments] = useState({
         author: '',
@@ -11,7 +19,7 @@ const Comment = ({ blogId, productDisplay }) => {
         text: ''
     })
 
-    const postComment = async (req, res) => {
+    const postComment = async () => {
         try {
             const res = await fetch(`${import.meta.env.VITE_BACKEND_API}/comment`, {
                 method: "POST",
@@ -24,6 +32,8 @@ const Comment = ({ blogId, productDisplay }) => {
 
             const resData = await res.json();
 
+            setAllComments(resData.blog.comments)
+
             setComments({
                 text: ''
             })
@@ -35,8 +45,88 @@ const Comment = ({ blogId, productDisplay }) => {
         }
     }
 
-    console.log(allComments)
 
+    const deleteComment = async (commentIdx) => {
+        try {
+            const res = await fetch(`${import.meta.env.VITE_BACKEND_API}/delComment`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ commentIdx: commentIdx, blogId: blogId })
+
+            })
+
+            const resData = await res.json();
+
+            // console.log(resData)
+
+            setAllComments(resData.blog.comments)
+            toast.success(resData.message)
+
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const editComment = (commentId, currText) => {
+        setEditCommentId(commentId)
+        setNewCommentText(currText);
+    }
+
+    const handleChange = (e) => {
+        setNewCommentText(e.target.value);
+        console.log(e.target.value)
+    };
+
+    const handleEditComment = async (commentId) => {
+        try {
+            const res = await fetch(`${import.meta.env.VITE_BACKEND_API}/editComment`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ commentId: commentId, blogId: blogId, newText: newCommentText })
+            })
+
+            const resData = await res.json();
+console.log(resData)
+            if (res.ok) {
+
+                const updatedComments = allComments.map(comment => {
+                    if (comment._id === editCommentId) {
+                      return { ...comment, text: newCommentText };
+                    }
+                    return comment;
+                  });
+          
+                  setAllComments(updatedComments); 
+                    setEditCommentId(null);
+                
+                toast.success(resData.message)
+            }
+            else {
+                toast.error('Error updating comment')
+            }
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleClickOutside = (e) => {
+        if (commentRef.current && !commentRef.current.contains(e.target)) {
+          setEditCommentId(null); 
+        }
+      };
+    
+      useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+          document.removeEventListener('mousedown', handleClickOutside);
+        };
+      }, []);
 
     return (
         <>
@@ -51,26 +141,41 @@ const Comment = ({ blogId, productDisplay }) => {
             </div>
 
             {/* comment div  */}
-            <h5 style={{ marginLeft: "100px" }}>{allComments.length} comments</h5>
+            <h5 style={{ margin: "60px 0 20px 60px", textDecoration: "underline" }}>{allComments.length} comments</h5>
             <div>
 
-                {allComments.map((elem,idx) => {
+                {allComments.map((elem, idx) => {
                     return <><div className='commDiv' key={idx}>
-                        <div className='leftDiv'><img src={elem.userImage} alt="" /></div>
+                        <div className='leftDiv'><img src={elem.userImage} alt="user_image" /></div>
                         <div className='rightDiv'>
-                            <h2>{user.name}</h2>
-                            <p>{elem.text}</p>
+                            <div className='function'>
+                                <h2>{user.name}</h2>
+                                <div>
+
+                                    {editCommentId == elem._id ? <button className='btn' style={{ fontSize: "13px" }} onClick={() => handleEditComment(elem._id)}>Edit</button> : ""}
+
+
+                                    <button className='btn' onClick={() => editComment(elem._id, elem.text)}><CiEdit></CiEdit></button>
+
+                                    <button className='btn' style={{ color: "red" }} onClick={() => deleteComment(idx)}><MdDelete></MdDelete></button>
+                                </div>
+                            </div>
+                            {editCommentId == elem._id ? <textarea   ref={commentRef} name="newCommentText" value={newCommentText} className='txtArea' onChange={handleChange}></textarea> : <p>{elem.text}</p>}
+
+
                             <div className='attrib'>
 
                                 <div>
-                                    <span>date</span>
-                                    <p>👍Likes Count</p>
+                                    <span>{(new Date(elem.createdAt)).toString().substring(4, 7) + ' ' + (new Date(elem.createdAt)).getDate() + ', ' + (new Date(elem.createdAt)).getFullYear()
+                                    }</span>
+                                    <span>{format(new Date(elem.createdAt), 'h:mm a')}</span>
+                                    {/* <p>👍{likes}</p> */}
                                 </div>
 
-                                <div>
-                                    <a href="">Like</a>
-                                    <a href="">Reply</a>
-                                </div>
+                                {/* <div>
+                                    <span style={{color:"blue" , cursor:"pointer"}} onClick={()=>setLikes(likes+1)}>Like</span>
+                                    <span style={{color:"blue" , cursor:"pointer"}}>Reply</span>
+                                </div> */}
                             </div>
                         </div>
 

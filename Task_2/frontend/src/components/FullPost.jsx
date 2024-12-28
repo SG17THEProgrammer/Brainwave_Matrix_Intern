@@ -9,6 +9,8 @@ import { FaFacebook } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 import StarRating from './StarRating';
 import Comment from './Comment';
+import { format } from 'date-fns';
+
 
 const FullPost = () => {
     const { id } = useParams();
@@ -68,7 +70,7 @@ const tagLength = productDisplay?.tags?.length
       </div>
       <br />
       <h5>{productDisplay?.story}</h5>
-      <p>{timeAgo} ({dateNday})</p>
+      <p>{timeAgo} ({dateNday}) ,  {format(new Date(productDisplay?.postedOn), 'h:mm a')}</p>
       <div>
         <img src={productDisplay?.image} alt="blog_image" className="fakeimg" />
       </div> 
@@ -93,7 +95,7 @@ const tagLength = productDisplay?.tags?.length
     </div>
     <div className="card">
       <h3>Rate this Post</h3>
-        <StarRating blogId={id} productDisplay={productDisplay}></StarRating>
+        <StarRating blogId={id} productDisplay={productDisplay} getAllBlogs={getAllBlogs}></StarRating>
     </div>
     <div className="card1 card ">
       <h3>Popular Post</h3>
@@ -105,7 +107,7 @@ const tagLength = productDisplay?.tags?.length
   </div>
 </div>
   
-  <Comment blogId={id} productDisplay={productDisplay}></Comment>
+  <Comment blogId={id} productDisplay={productDisplay} getAllBlogs={getAllBlogs}></Comment>
     </>
   )
 }

@@ -120,4 +120,55 @@ const getAllUsers = async (req, res) => {
     }
 }
 
-module.exports = {register,getAllUsers,login,getUser}
+const updateProfile = async (req, res) => {
+    try {
+        const { userId, userInfo } = req.body;
+        const {name, email, phone, age, password, image , confirmPassword} = userInfo 
+
+
+        const user = await User.findById(userId); 
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+    
+        if (password != confirmPassword) {
+            return res.status(400).json({ message: "Passwords do not match" });
+        }
+
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: ['Email already exists'] });
+        }
+
+        const existingPhoneNumber = await User.findOne({ phone });
+        if (existingPhoneNumber) {
+            return res.status(400).json({ message: ['Phone Number already exists'] });
+        }
+
+        if (name) user.name = name;
+        if (email) user.email = email;
+        if (phone) user.phone = phone;
+        if (age) user.age = age;
+        if (image) user.image = image;
+
+        if (password) {
+            const hashedPassword = await bcrypt.hash(password, 10);
+            user.password = hashedPassword;
+        }
+
+        await user.save(); 
+
+        res.status(200).json({
+            message:["Profile updated successfully"],
+            updatedUser: user,
+        });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error updating profile" });
+    }
+}
+
+module.exports = {register,getAllUsers,login,getUser,updateProfile}
