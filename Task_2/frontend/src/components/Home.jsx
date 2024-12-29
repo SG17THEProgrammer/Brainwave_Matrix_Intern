@@ -4,17 +4,25 @@ import Main from './Main'
 import Working from './Working'
 import Blogs from './Blogs'
 import SuccessStories from './SuccessStories'
-import Footer from './Footer'
+import '../css/Working.css'
 
 const Home = () => {
+
   return (
     <>
       <Navbar></Navbar>
       <Main></Main>
-      <Working></Working>
+      
+   <Working action={'howItWorks'}></Working>
+
       <Blogs></Blogs>
+
+      <div style={{marginTop:"180px"}}>
+
+      <Working action={'whyChooseUs'}></Working>
+      </div>
+
       <SuccessStories></SuccessStories>
-      <Footer></Footer>
     </>
   )
 }

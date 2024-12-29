@@ -30,7 +30,7 @@ const UserProfile = () => {
     }
 
     console.log(userInfo)
-    const handleInput = (e) => {
+    const handleInput= (e) => {
         let name = e.target.name;
         let value = e.target.value;
 
@@ -41,7 +41,6 @@ const UserProfile = () => {
     };
 
     const handleUploadProfileImage = async (e) => {
-      // //console.log(e.target.files[0])
       const image = await ImagetoBase64(e.target.files[0])
   
   
@@ -84,53 +83,53 @@ const UserProfile = () => {
     <>
     <Navbar></Navbar>
     <div className='uprDiv'>
-  <div class="form-container">
-    <form class="form" onSubmit={updateUser}>
-      <div class="form-header">
-        <img src={userInfo.image || user.image} alt="Profile Picture" class="profile-image" onChange={handleInput}/>
-        <label htmlFor="file" style={{marginTop:"-15px"}}>Upload an image</label>
+  <div className="form-container1">
+    <form className="form" onSubmit={updateUser}>
+      <div className="form-header1">
+        <img src={userInfo.image || user.image} alt="Profile Picture" className="profile-image1" onChange={handleInput} />
+        <label htmlFor="file" style={{marginTop:"-15px" , textDecoration:"underline" , cursor:"pointer"}}className='label2'>Upload an image</label>
         <input type="file" name="file" id="file" accept='image/*' className='inp1' onChange={handleUploadProfileImage}   />
-        <h2 style={{marginTop:"20px"}} >Your Profile</h2>
-        <p>Welcome, <b>{user.name}</b> |  <span>Excited to have you onboard </span></p>
+        <h2 style={{marginTop:"20px"}} className='h2'>Your Profile</h2>
+        <p className='p2'>Welcome, <b>{user.name}</b> |  <span>Excited to have you onboard </span></p>
       </div>
       
-      <div class="form-body">
-        <div class="input-group">
-          <label for="name">Full Name</label>
-          <input type="text" id="name" name="name" placeholder="Enter name" required value={userInfo.name} onChange={handleInput}/>
+      <div className="form-body1">
+        <div className="input-group">
+          <label htmlFor="name" className='label2'>Full Name</label>
+          <input type="text" id="name" name="name" placeholder="Enter name" required value={userInfo.name} onChange={handleInput} className='input2'/>
         </div>
         
-        <div class="input-group">
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="Enter email" required value={userInfo.email} onChange={handleInput}/>
+        <div className="input-group">
+          <label htmlFor="email" className='label2'>Email</label>
+          <input type="email" id="email" name="email" placeholder="Enter email" required value={userInfo.email} onChange={handleInput} className='input2'/>
         </div>
         
-        <div class="input-group">
-          <label for="phone">Phone Number</label>
-          <input type="tel" id="phone" name="phone" placeholder="Enter Phone Number" required value={userInfo.phone} onChange={handleInput}/>
+        <div className="input-group">
+          <label htmlFor="phone" className='label2'>Phone Number</label>
+          <input type="tel" id="phone" name="phone" placeholder="Enter Phone Number" required value={userInfo.phone} onChange={handleInput} className='input2'/>
         </div>
         
-        <div class="input-group">
-          <label for="age">Age</label>
-          <input type="number" id="age" name="age" placeholder="Enter age " required value={userInfo.age} onChange={handleInput}/>
+        <div className="input-group">
+          <label htmlFor="age" className='label2'>Age</label>
+          <input type="number" id="age" name="age" placeholder="Enter age " required value={userInfo.age} onChange={handleInput} className='input2'/>
         </div>
         
         <div>
           <h5 style={{textAlign:"left",textDecoration:"underline"}}>Change Password</h5>
           <br />
-        <div class="input-group">
-          <label for="password">New Password</label>
-          <input type="password" id="password" name="password" placeholder="Enter new Password"  value={userInfo.password} onChange={handleInput}/>
+        <div className="input-group">
+          <label htmlFor="password" className='label2'>New Password</label>
+          <input type="password" id="password" name="password" placeholder="Enter new Password"  value={userInfo.password} onChange={handleInput} className='input2'/>
         </div>
         <br />
-        <div class="input-group">
-          <label for="confirm-password">Confirm Password</label>
-          <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Enter Confirm Password "  value={userInfo.confirmPassword} onChange={handleInput}/>
+        <div className="input-group">
+          <label htmlFor="confirmPassword" className='label2'>Confirm Password</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Enter Confirm Password "  value={userInfo.confirmPassword} onChange={handleInput} className='input2'/>
         </div>
 
         </div>
         
-        <button type="submit" class="submit-btn">Submit</button>
+        <button type="submit" className="submit-btn">Submit</button>
       </div>
     </form>
   </div>

@@ -93,13 +93,11 @@ const login = async (req, res) => {
 
 const getUser = async (req, res) => {
     try {
-                // console.log(req.user)
 
         const userData = req.user;
         // console.log(userData);
 
         return res.status(200).json({ userData })
-        // return res.status(200).json({message:"hi user"})
 
 
     } catch (error) {
@@ -132,20 +130,24 @@ const updateProfile = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
+        if (email && email !== user.email) {
+            const existingUser = await User.findOne({ email });
+
+            if (existingUser) {
+                return res.status(400).json({ message: ['Email already exists'] });
+            }
+        }
     
         if (password != confirmPassword) {
             return res.status(400).json({ message: "Passwords do not match" });
         }
 
-        const existingUser = await User.findOne({ email });
-        if (existingUser) {
-            return res.status(400).json({ message: ['Email already exists'] });
-        }
-
+        if (phone && phone !== user.phone) {
         const existingPhoneNumber = await User.findOne({ phone });
         if (existingPhoneNumber) {
             return res.status(400).json({ message: ['Phone Number already exists'] });
         }
+    }
 
         if (name) user.name = name;
         if (email) user.email = email;

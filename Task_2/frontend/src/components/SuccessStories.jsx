@@ -36,7 +36,7 @@ const SuccessStories = () => {
     <div>
         <div className='upperdiv'>
             <p className='heading'>Success Stories </p>
-            <h1 style={{marginBottom:"30px" , borderBottom:"3px solid black"}}>OUR HAPPY CUSTOMERS</h1>
+            <h1 style={{borderBottom:"3px solid black"}}>OUR HAPPY CUSTOMERS</h1>
         </div>
         <div className='gridbox'>
         {successStories?.map((elem,idx)=>{

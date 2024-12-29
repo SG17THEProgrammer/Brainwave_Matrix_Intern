@@ -11,7 +11,7 @@ const Navbar = () => {
                     📖 BlogEDastan 📰
                 </NavLink>
 
-                <NavLink>
+                {/* <NavLink>
 
                     <span>Pricing</span>
                 </NavLink>
@@ -19,15 +19,15 @@ const Navbar = () => {
                 <NavLink>
 
                     <span>FAQ</span>
-                </NavLink>
+                </NavLink> */}
 
 
-                <NavLink>
+                <NavLink to='/contact'>
 
                     <span>Contact Us</span>
                 </NavLink>
 
-                <NavLink><span>All Posts</span>
+                <NavLink to='/allPosts'><span>All Posts</span>
                 </NavLink>
 
                 <NavLink to='/yourPosts'>

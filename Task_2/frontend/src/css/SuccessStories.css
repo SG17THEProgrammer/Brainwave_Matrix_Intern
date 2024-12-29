@@ -1,7 +1,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Vollkorn&display=swap");
 .upperdiv{
-    margin-top: 150px;
-    border: 1px solid red;
+    margin-top: 130px;
+    /* border: 1px solid red; */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -9,7 +9,7 @@
 }
 
 .gridbox{
-border: 1px solid black;
+/* border: 1px solid black; */
 display: grid;
 grid-template-columns: repeat(3,320px);
 /* margin: 0 60px; */

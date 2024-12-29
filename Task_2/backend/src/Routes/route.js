@@ -10,6 +10,7 @@ const { getSuccessStories } = require('../controllers/successStoriesController')
 const { generateAnswerUsingAi } = require('../controllers/openAiController')
 const auth = require('../middleware/auth.js')
 const { rating, comment, delComment, getRating, editComment } = require('../controllers/rating&CommentController.js')
+const { contact } = require('../controllers/controller.js')
 
 
 router.post('/register',validate(signupSchema),register)
@@ -22,6 +23,7 @@ router.post('/getRating' ,getRating)
 router.post('/comment' ,comment)
 router.post('/delComment' ,delComment)
 router.post('/editComment' ,editComment)
+router.post('/contact' ,contact)
 
 
 router.get('/allUsers',getAllUsers)

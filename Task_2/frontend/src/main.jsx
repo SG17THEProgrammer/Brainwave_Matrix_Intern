@@ -4,8 +4,10 @@ import App from './App.jsx'
 import { AuthProvider } from './components/Auth.jsx';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Footer from './components/Footer.jsx';
 
 createRoot(document.getElementById('root')).render(
+  <>
   <AuthProvider>
     <App />
     <ToastContainer
@@ -20,5 +22,7 @@ createRoot(document.getElementById('root')).render(
                 bodyClassName="toastBody"
 
             />
+  <Footer></Footer>
   </AuthProvider>
+  </>
 )

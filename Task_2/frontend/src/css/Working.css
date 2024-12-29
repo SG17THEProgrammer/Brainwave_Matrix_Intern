@@ -23,10 +23,54 @@
     align-items: center;
     height: 60vh;
     width:  60vh;
-    border: 1px solid red;
+    /* border: 1px solid red; */
     margin-bottom: 150px;
 }
+
+
 .para{
     margin: 5px 20px;
     text-align: center;
 }
+
+
+
+.img9{
+    height: 30vh;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.particularStep1{
+    padding: 20px 35px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 80vh;
+    width:  70vh;
+    /* border: 1px solid red; */
+    margin-bottom: 150px;
+}
+.para1{
+    margin: 20px 0px;
+    text-align: left;
+}
+
+.particularStep1 h4{
+    margin: 10px 0 ;
+}
+
+.particularStep1 h4 {
+    position: relative;
+    padding-bottom: 20px; 
+  }
+  
+  .particularStep1 h4::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 25%;  
+    width: 40%;
+    border-bottom: 2px solid black;
+  }

@@ -1,0 +1,88 @@
+.imgDiv{
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.box::-webkit-scrollbar {
+    display: none;
+  }
+
+  .box{
+    border: 5px solid blue;
+    padding: 5px;
+    animation: borderColorChange 5s infinite;
+    margin-bottom: 50px;
+  }
+
+  @keyframes borderColorChange {
+    0% {
+      border-color: rgb(99, 99, 187); 
+    }
+    25% {
+      border-color: rgb(232, 128, 128); 
+    }
+    50% {
+      border-color: green; 
+    }
+    75% {
+      border-color: purple; 
+    }
+    100% {
+      border-color: rgb(99, 99, 187); ; 
+    }
+  }
+
+
+  .image-item {
+    position: relative; /* Ensure the overlay appears over the image */
+  }
+  
+  .image-container {
+    position: relative;
+    display: block;
+    overflow: hidden; /* Hide overflow for images */
+  }
+  
+  .img7 {
+    width: 100%;
+    height: auto;
+    transition: all 0.3s ease; 
+  }
+  
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.2); 
+    opacity: 0;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    transition: opacity 0.5s ease; 
+  }
+  
+  .overlay .text h3,
+  .overlay .text p {
+    margin: 5px;
+  }
+  
+  .image-container:hover .img7 {
+    filter: brightness(0.5); 
+  }
+  
+  .image-container:hover .overlay {
+    opacity: 1;
+  }
+  
+  .hoverDiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

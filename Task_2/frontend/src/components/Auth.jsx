@@ -24,9 +24,8 @@ export const AuthProvider = ({ children }) => {
 
       let isLoggedIn = !!token;
 
-       // function to check the user Authentication or not
   const userAuthentication = async () => {
-
+    // console.log(isLoggedIn , token)
     if (isLoggedIn){
       try {
         const response = await fetch(`${import.meta.env.VITE_BACKEND_API}/user`, {
@@ -36,10 +35,10 @@ export const AuthProvider = ({ children }) => {
           'Authorization': `Bearer ${token}`,
         },
       });
+      // console.log(response)
 
       if (response.ok) {
         const data = await response.json();
-        // console.log(data);
 
         setUser(data.userData);
       } else {
